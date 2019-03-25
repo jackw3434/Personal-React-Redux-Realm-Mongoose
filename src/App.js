@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Table from './components/Table'
 import Form from './components/Form';
+import axiosGetCharacter from './components/axios/axios.getCharacters';
 const axios = require('axios')
 
 const headerTitle = "Hello, See a List of Characters";
@@ -17,9 +18,10 @@ class App extends Component {
 
   }
   componentDidMount() {
-    // Make a request for a user with a given ID
-    axios.get(this.state.baseUrl + '/characters')
+    // axiosGetCharacter();
+    axios.get('http://localhost:8080/api/characters')
       .then((response) => {
+        console.log(response.data);
         this.setState({
           characters: response.data
         });
@@ -30,7 +32,6 @@ class App extends Component {
       .then(function () {
         // always executed       
       })
-
   }
 
   removeCharacter = index => {
@@ -51,9 +52,17 @@ class App extends Component {
       }),
     })
   }
-  // […]. The spread operator can be used to take an existing array and add another element to it while still preserving the original array
+  // […] The spread operator can be used to take an existing array and add another element to it while still preserving the original array
 
   handleSubmit = character => {
+
+    axios.post(this.state.baseUrl + '/characters', {
+      "name": character.name,
+      "job": character.job
+    })
+      .then(res => {
+        console.log("res ", res);
+      })
     this.setState({ characters: [...this.state.characters, character] })
   }
 

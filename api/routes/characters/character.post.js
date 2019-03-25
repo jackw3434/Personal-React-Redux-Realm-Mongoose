@@ -8,6 +8,7 @@ module.exports = function (router) {
         character.save(function (err) {
 
             if (err) {
+
                 res.status(500).send({ errorCode: 'save_failed', errorMessage: 'Unable to save Character.' });
                 return;
             }

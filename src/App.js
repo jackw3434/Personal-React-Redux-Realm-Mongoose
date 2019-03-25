@@ -2,34 +2,56 @@ import React, { Component } from 'react';
 import './App.css';
 import Table from './components/Table'
 import Form from './components/Form';
+const axios = require('axios')
 
-const headerTitle = "Hello, React!!";
+const headerTitle = "Hello, See a List of Characters";
 const header = <h1>{headerTitle}</h1>;
 
 class App extends Component {
-  state = {
-    characters: [
-      {
-        name: 'Charlie',
-        job: 'Janitor',
-      },
-      {
-        name: 'Mac',
-        job: 'Bouncer',
-      },
-      {
-        name: 'Dee',
-        job: 'Aspring actress',
-      },
-      {
-        name: 'Dennis',
-        job: 'Bartender',
-      },
-    ]
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      characters: [],
+      baseUrl: "http://localhost:8080/api"
+    };
+
+  }
+  componentDidMount() {
+    // Make a request for a user with a given ID
+    axios.get(this.state.baseUrl + '/characters')
+      .then((response) => {
+        this.setState({
+          characters: response.data
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // always executed       
+      });
+
+    // fetch("http://localhost:8080/api/characters")
+    //   .then(res => res.json())
+    //   .then((result) => {
+    //     this.setState({
+    //       characters: result
+    //     });
+    //   }
+    //   )
+  }
 
   removeCharacter = index => {
     const { characters } = this.state
+    const id = characters[index]._id;
+
+    axios.delete(this.state.baseUrl + '/characters/' + id)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
 
     this.setState({
       characters: characters.filter((character, i) => {

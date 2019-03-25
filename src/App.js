@@ -29,16 +29,8 @@ class App extends Component {
       })
       .then(function () {
         // always executed       
-      });
+      })
 
-    // fetch("http://localhost:8080/api/characters")
-    //   .then(res => res.json())
-    //   .then((result) => {
-    //     this.setState({
-    //       characters: result
-    //     });
-    //   }
-    //   )
   }
 
   removeCharacter = index => {
